@@ -44,10 +44,11 @@ router.post('/login',async(req,res,next)=>{ // async함수는 promise 리턴(pro
           console.log("비밀번호 불일치");
         }
         res.redirect("/users/login");  
-    }catch(error){
-         console.log(error);
-          next(error)
-      }
+      }catch(error){ //에러 발생할경우
+        console.log(error);
+        res.status(403).send('<script>alert("회원탈퇴한 아이디 입니다.");location.href="/users/login";</script>'); //회원탈퇴한 아이디로 로그인시도할경우
+         next(error)
+     }
 });
 
 
@@ -78,8 +79,9 @@ router.post('/join',async(req,res,next)=>{
         location.href="/users/login";</script>');
       
     }
-    catch(error){
+    catch(error){ //에러처리문
       console.log(error);
+      res.status(403).send('<script>alert("회원탈퇴한 아이디 입니다.");location.href="/users/join";</script>'); //회원가입시 회원탈퇴한 아이디로 가입시도하는경우
       next(error)
     };
   });
@@ -87,15 +89,15 @@ router.post('/join',async(req,res,next)=>{
   //회원탈퇴
 router.get('/login/delete/:email',async(req,res,next)=>{
   try{
-    var email = req.params.email;
-    const user = await User.destroy({
-      where : {
-        email
+      var email = req.params.email;
+      const user = await User.destroy({
+        where : {
+          email
+        }
+      });
+      if(user){
+        res.send('<script>alert("회원탈퇴 완료");location.href="/users/login";</script>')    
       }
-    });
-    if(user){
-      res.send('<script>alert("회원탈퇴 완료");location.href="/users/login";</script>')    
-    }
   }
   catch(error){
     console.log(error);
