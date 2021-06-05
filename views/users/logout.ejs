@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+    <body>
+        
+         <!--로그인 했을경우-->
+           <h4><%= email %> 님 환영합니다!</h4>
+            <h4><a href="../users/login" onclick="return confirm('로그아웃 하시겠습니까?')">logout</a></h4>
+     
+            <a href="/users/login/delete/<%= email%>" class="memberdestory" onclick="return confirm('회원탈퇴를하시겠습니까?')">회원탈퇴</a>
+    </body>
+</html>
+

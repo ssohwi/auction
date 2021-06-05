@@ -3,6 +3,11 @@ const Sequelize = require('sequelize'); // 모델과 MySQL 테이블을 연결
 module.exports = class User extends Sequelize.Model { // Model : static init과 static associate으로 나뉨
     static init(sequelize) { // static init : 테이블에 대한 설정
         return super.init({ // super.init의 첫번째 인수 : 테이블 컬럼 설정
+            id : {
+                type: Sequelize.INTEGER,
+                autoIncrement:true,
+                primaryKey:true
+            },
             // 이메일
             email: {
                 type: Sequelize.STRING(40),
