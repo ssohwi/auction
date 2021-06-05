@@ -10,7 +10,7 @@ dotenv.config(); // .env 파일로부터 환경변수를 읽어서 process.env�
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const { sequelize } = require('./models'); // db 연결객체
-const app = express();
+const app = express();//ㅁ
 
 app.set("view engine", "ejs");
 app.set('views', './views');
