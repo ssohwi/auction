@@ -24,6 +24,11 @@ module.exports = class User extends Sequelize.Model { // Model : static init과 
                 type: Sequelize.STRING(100),
                 allowNull: false,
             },
+             // 휴대폰 번호
+             phone : {
+                type: Sequelize.STRING(100),
+                allowNull: false,
+            },
             // 보유 자금
             money: {
                 type: Sequelize.INTEGER,
