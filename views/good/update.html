@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="/main.css">
+{% block content %}
+    <form action="/update/{{good.id}}" id="good-form" method="post" enctype="multipart/form-data">    
+      <h1><a href="/">누가살래</a></h1>
+      <div class="timeline">
+      <div class="input-group">
+        <label for="good-name">상품명</label>
+        <input type="text" id="good-name" name="name" required autofocus>
+      </div>
+      <div class="input-group">
+        <label for="good-photo">상품 사진</label>
+        <input type="file" id="img" name="img" required>
+      </div>
+      <div class="input-group">
+        <label for="good-price">시작 가격</label>
+        <input type="number" id="good-price" name="price" required>
+      </div>
+      <button id="join-btn" class="btn" type="submit">수정하기</button>
+    </form>
+{% endblock %}

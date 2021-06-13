@@ -1,0 +1,30 @@
+
+  <link rel="stylesheet" href="/main.css">
+  <form action="/auth/update/{{user.id}}" id="join-form" method="post">
+    <h1><a href="/">누가살래</a></h1>
+     <h1>회원정보수정</h1>
+     <div class="timeline">
+        
+     <div class="input-group">
+        <label for="join-email">이메일</label>
+        {{user.email}}
+      </div>
+      <div class="input-group">
+        <label for="join-nick">닉네임</label>
+        <input type="text" id="join-nick" name="nick">
+      </div>
+      <div class="input-group">
+        <label for="join-password">비밀번호</label>
+        <input type="password" id="join-password" name="password">
+      </div>
+      <div class="input-group">
+        <label for="join-money">보유자산</label>
+        <input type="number" id="join-money" name="money">
+      </div>
+      <a href="/auth/detail" class="btn btn-default">목록으로</a>
+      <button id="update-btn" class="btn" type="submit">수정하기</button>
+      </form>
+ 
+ <!-- <button type="submit" class='btn' onclick="button()">회원정보수정</button> -->
+
+
