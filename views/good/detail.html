@@ -1,38 +1,48 @@
+{% extends 'layout.html' %}
 
-
-  <link rel="stylesheet" href="/main.css">
-  <form action="/index/detail" id="good-form" method="post">
-    <h1><a href="/">누가살래</a></h1>
-     <h1>등록상품</h1>
-     <div class="timeline">
+{% block content %}
+<link rel="stylesheet" href="../css/product.css">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <h3 class="text-center font-weight-light my-4">등록상품목록</h3>
+        </div>
+        
+   <form action="/index/detail" id="good-form" method="post">
         {% for good in goods %}
+        <div class="col-lg-4 col-sm-6 mb-4 "> </div>
+        <div class="timeline">
         <hr class="my-0" />
-     <div >
+          <img id="good-img" src="/img/{{good.img}}">    
+     <div>
         <label>상품명</label>
-        <a href="/goodDetail/{{good.id}}">{{good.name}} </a><!--여기다가 상품 상세정보 넣으면될듯-->
-      </div>
-    
-      <div >
-        <label>상품정보</label>
-        <img id="good-img" src="/img/{{good.img}}">
-      </div>
+        <a href="/goodDetail/{{good.id}}">{{good.name}} </a> <!--상품 상세정보-->
+      </div>  
+      
       <div >
         <label>시작가</label>
-        {{good.price}}
-      </div>
-      <div>
-        남은시간
-          <table>    
+        {{good.price}}원
+      </div>  
+          <table>            
+            <td><label>남은시간</label></td> 
         <td class="time" data-start="{{good.createdAt}}">00:00:00</td>
-          </table>
-      </div>
-      
+          </table>   
+      </d>
+     
       {% endfor %}
       <hr class="my-0" />
-      <a href="/" class="btn btn-default">목록으로</a>
-      <a href="../../good" class="btn btn-default">상품등록</a>
+      <div class="product-group text-center font-weight-light my-4">
+        <button class="btn"><a href="/" class="btn btn-default">목록으로</a></button>
+        <button class="btn"> <a href="../../good" class="btn btn-default">상품등록</a></button>
       </form>
-
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+      
 <script>
      const es = new EventSource('/sse');
     es.onmessage = function (e) {
@@ -52,3 +62,4 @@
       });
     };
 </script>
+{% endblock %}
