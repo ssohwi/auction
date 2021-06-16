@@ -1,14 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block good %}
-  <h2>{{good.name}}</h2>
-  <div>등록자: {{good.Owner.nick}}</div>
-  <div>시작가: {{good.price}}원</div>
-  <strong id="time" data-start="{{good.createdAt}}"></strong>
-  <img id="good-img" src="/img/{{good.img}}">
-{% endblock %}
 
-{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <h3 class="text-center font-weight-light my-4">경매목록</h3>
+        </div>
+      <form>
+        <img id="good-img" src="/img/{{good.img}}">
+        <div>
+          <label>상품명</label>  
+          {{good.name}}
+        </div>
+            <div><label>등록자</label>   {{good.Owner.nick}}</div>
+            <div><label>시작가</label> {{good.price}}원</div>
+            <div><label>남은시간</label><strong id="time" data-start="{{good.createdAt}}"></strong></div>
+            <hr class="my-0" />
+       
+    {% endblock %}
+
+    {% block content %}
   <div class="timeline">
     <div id="bid">
       {% for bid in auction %}
@@ -19,13 +33,20 @@
             <span>({{bid.msg}})</span>
           {% endif %}
         </div>
+       
       {% endfor %}
+      <hr class="my-0" />
     </div>
+  </form>
     <form id="bid-form">
       <input type="number" name="bid" placeholder="입찰가" required min="{{good.price}}">
       <input type="msg" name="msg" placeholder="메시지(선택사항)" maxlength="100">
-    <button class="btn" type="submit">입찰</button>
+     <button class="btm btn-primary btn-block" type="submit">입찰</button>
     </form>
+  </div>
+</div>
+</div>
+</div>
   </div>
   <!-- 뷰에서 권고하는 http 통신 라이브러리 -->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
