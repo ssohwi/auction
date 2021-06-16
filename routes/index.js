@@ -12,6 +12,7 @@ const router = express.Router();
 
 router.use((req, res, next) => {
   res.locals.user = req.user; // user 정보를 view 템플릿에서 사용할 수 있도록 변수로 할당
+  res.locals.good = req.good;
   next(); // 다음 미들웨어로 이동
 });
 
@@ -30,19 +31,19 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//로고클릭시 메인화면 이동
-router.get('/main', async (req, res, next) => {
-  try {
-    const goods = await Good.findAll({ where: { SoldId: null } });
-    res.render('main', { //  main.html를 렌더링
-      title: '누가살래?', // title을 view 템플릿에서 변수값으로 사용할 수 있도록 할당
-      goods, // 상품들의 정보를 view 템플릿의 변수값으로 사용할 수 있도록 할당
-    });
-  } catch (error) { // 에러 핸들링
-    console.error(error);
-    next(error);
-  }
-});
+// //로고클릭시 메인화면 이동
+// router.get('/main', async (req, res, next) => {
+//   try {
+//     const goods = await Good.findAll({ where: { SoldId: null } });
+//     res.render('main', { //  main.html를 렌더링
+//       title: '누가살래?', // title을 view 템플릿에서 변수값으로 사용할 수 있도록 할당
+//       goods, // 상품들의 정보를 view 템플릿의 변수값으로 사용할 수 있도록 할당
+//     });
+//   } catch (error) { // 에러 핸들링
+//     console.error(error);
+//     next(error);
+//   }
+// });
 
 // 로그인 화면으로 이동
 router.get('/login', isNotLoggedIn, (req, res) => { // isNotLoggedIn : 로그인 되어있지 않다면
@@ -89,7 +90,7 @@ const upload = multer({
 router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) => { // upload.single('photo') : input에 입력된 하나의 이미지, photo는 input 의 name 
   try {
     const { name, price } = req.body; // 입력된 내용에서 name과 price를 넣음
-    await Good.create({ // 입력된 상품 정보를 비동기 방식으로 저장
+    const good = await Good.create({ // 입력된 상품 정보를 비동기 방식으로 저장
       OwnerId: req.user.id, // 상품 등록자를 사용자의 id로 저장
       name, // 상품이름
       img: req.file.filename, // 업로드 된 파일 이름
@@ -99,6 +100,7 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     //end.setDate(end.getDate()+1); //getDate는 현재 일을 반환해줌(1~31)
     //+1을 함으로 상품등록 후 24시간 뒤 날짜로 설정
     end.setMinutes(end.getMinutes()+1);
+    
     //경매 24시간이 지난후 낙찰자 선정
     schedule.scheduleJob(end, async () => {//end, 즉 하루가 지나면 함수 실행
       const success = await Auction.findOne({//가장 높은 가격을 제시한 사람을 find
@@ -123,20 +125,6 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
   }
 });
 
-//낙찰내역 조회
-router.get('/list', isLoggedIn, async (req, res, next) => {
-  try {
-    const goods = await Good.findAll({//요청된 id의 사용자가 낙찰받은 모든 물품을 조회
-      where: { SoldId: req.user.id },
-      include: { model: Auction },
-      order: [[{ model: Auction }, 'bid', 'DESC']],
-    });
-    res.render('list', { title: '낙찰 목록 - NodeAuction', goods });//goods정보를 list.html에 렌더링
-  } catch (error) {//에러처리
-    console.error(error);
-    next(error);
-  }
-});
 
 // 상품 페이지
 router.get('/good/:id', isLoggedIn, async (req, res, next) => {
@@ -150,7 +138,7 @@ router.get('/good/:id', isLoggedIn, async (req, res, next) => {
         },
       }),
       Auction.findAll({ // 경매 테이블에서 모든 데이터를 검색
-        where: { GoodId: req.params.id }, // 요청된 id와 같은 상품id를 검색
+        where: { goodId: req.params.id }, // 요청된 id와 같은 상품id를 검색
         include: { model: User }, // User 모델이 포함된 데이터를 검색
         order: [['bid', 'ASC']], // bid(입찰가)를 오름차순으로 정렬
       }),
@@ -205,6 +193,97 @@ router.post('/good/:id/bid', isLoggedIn, async (req, res, next) => {
   } catch (error) { // 에러 핸들링
     console.error(error);
     return next(error);
+  }
+});
+
+//개인이 등록한 상품 전체목록확인
+router.get('/detail', isLoggedIn,async(req,res,next)=>{
+  try{
+   const goods = await Good.findAll({ //Good 테이블에 모든데이터를 확인한다.
+     where: {OwnerId: req.user.id}, //개인이등록한 모든 상품을 불러와야되서 로그인한 user의 id값을 OwnerId(등록자)로 검색을한다.  
+     include : {model:Auction} //Auction 모델을 포함시킨다.
+   });
+   res.render('good/detail',{goods}) //detail(개인이등록한 전체상품보는페이지) 렌더링 해주고 ownerid에 해당하는 전체데이터값을 같이 넘겨줌
+  }catch(error){//에러처리문
+    console.log(error);
+    next(error);
+  }
+})
+
+//상품 상세보기
+router.get('/goodDetail/:id',async(req,res,next)=>{ 
+  try{
+    const goods = await Good.findAll({ //Good 테이블에 모든데이터를 확인한다.
+      where: { id: req.params.id } //상품번호를기준으로 검색
+    });
+    res.render('good/goodDetail',{goods}) //goodDetail(상품상세보기)를 렌더링, id에 해당하는 데이터값을 같이 보내준다. 
+   }catch(error){ //에러처리문
+     console.log(error);
+     next(error);
+   }
+})
+
+//상품 수정
+router.get('/update',(req,res,next)=>{ 
+  res.render('good/update') //상품수정하는페이지 렌더링
+})
+
+//상품 수정 get방식
+router.get('/update/:id',async(req,res,next)=>{
+  try{
+  const good = await Good.findOne({ //Good테이블에서 데이터하나를 찾는다.
+    where : {id:req.params.id} 
+  })
+  res.render('good/update',{good}) //상품수정하는페이지 렌더링
+  }catch(error){
+    console.log(error);
+    next(error);
+  }
+})
+
+//상품 수정 post방식
+router.post('/update/:id', isLoggedIn, upload.single('img'),async(req,res,next)=>{ //이미지를 수정하기때문에 upload.single('img')를 사용
+  try{
+    const good = await Good.update({ //Good테이블에 데이터를 아래값으로 변경하겠다.
+      name:req.body.name, //상품명
+      img:req.file.filename, //상품이미지
+      price:req.body.price // 상품가격
+    },{where:{id:req.params.id}}) //파라미터를 통해 넘겨받은 상품id값
+    return res.send('<script>alert("상품정보수정 완료");location.href="/detail";</script>',)  
+  }catch(error){
+    console.log(error);
+    next(error);
+  }
+})
+
+
+//상품 삭제하기
+router.get('/delete/:id',async(req,res,next)=>{
+    try{
+      const good = await Good.destroy({ //Good 테이블을 삭제하겠다.
+        where:{
+          id: req.params.id //파라미터로 넘겨받은 id값에 해당하는 열
+        }
+      });
+      res.send('<script>alert("상품삭제 완료");location.href="/";</script>')    
+      // res.render('good/detail',{good}) 비어있는 값으로나옴
+    }catch(error){
+      console.log(error);
+     next(error);
+    }
+})
+//낙찰내역 조회
+router.get('/list', isLoggedIn, async (req, res, next) => {
+  try {
+    const goods = await Good.findAll({//요청된 id의 사용자가 낙찰받은 모든 물품을 조회
+      where: { SoldId: req.user.id },
+      include: { model: Auction },
+      order: [[{ model: Auction }, 'bid', 'DESC']],
+    });
+    res.render('list', { title: '낙찰 목록 - NodeAuction', goods });//goods정보를 list.html에 렌더링
+  } catch (error) {//에러처리
+    console.error(error);
+    next(error);
   }
 });
 
