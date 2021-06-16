@@ -236,6 +236,29 @@ button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
 }
+/* auction.html에 입찰가,메시지 css 꾸며줌 */
+#bid-form input{
+  width:49%;
+  margin: 2px;
+  padding:10px;
+} 
+#bid-form button{
+  margin: 0 auto;
+  display: inline-block;
+padding: 0 5px;
+text-decoration: none;
+font-weight: bold;
+cursor: pointer;
+border-radius: 4px;
+background: #007bff;
+border: 1px solid silver;
+color: white;
+height: 42px;
+line-height: 42px;
+vertical-align: top;
+font-size: 12px;
+width: 100%;
+}
 
 input,
 button,
