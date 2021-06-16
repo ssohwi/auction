@@ -1,30 +1,42 @@
+{% extends 'layout.html' %}
 
-  <link rel="stylesheet" href="/main.css">
-  <form action="/auth/update/{{user.id}}" id="join-form" method="post">
-    <h1><a href="/">누가살래</a></h1>
-     <h1>회원정보수정</h1>
-     <div class="timeline">
-        
-     <div class="input-group">
-        <label for="join-email">이메일</label>
-        {{user.email}}
+{% block content %}
+<div class="container timeline">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <h3 class="text-center font-weight-light my-4">회원정보수정</h3>
+        </div>
+           <form action="/auth/update/{{user.id}}" id="join-form" method="post">
+              
+            <div class="input-group">
+                <label for="join-email">이메일</label>
+                <div class='users'>{{user.email}}</div>
+              </div>
+              <div class="input-group">
+                <label for="join-nick">닉네임</label>
+                <input type="text" id="join-nick" name="nick">
+              </div>
+              <div class="input-group">
+                <label for="join-password">비밀번호</label>
+                <input type="password" id="join-password" name="password">
+              </div>
+              <div class="input-group">
+                <label for="join-money">보유자산</label>
+                <input type="number" id="join-money" name="money">
+              </div>
+              <div class="input-group text-center font-weight-light my-4">
+                <!-- <button class="btn"><a href="/auth/detail" class="btn btn-default">목록으로</a></button> -->
+                <button class="btn btn-primary btn-block" type="submit">수정하기</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="input-group">
-        <label for="join-nick">닉네임</label>
-        <input type="text" id="join-nick" name="nick">
-      </div>
-      <div class="input-group">
-        <label for="join-password">비밀번호</label>
-        <input type="password" id="join-password" name="password">
-      </div>
-      <div class="input-group">
-        <label for="join-money">보유자산</label>
-        <input type="number" id="join-money" name="money">
-      </div>
-      <a href="/auth/detail" class="btn btn-default">목록으로</a>
-      <button id="update-btn" class="btn" type="submit">수정하기</button>
-      </form>
- 
+            
+      {% endblock %}
  <!-- <button type="submit" class='btn' onclick="button()">회원정보수정</button> -->
 
 
