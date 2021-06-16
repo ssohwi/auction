@@ -1,0 +1,60 @@
+ 
+input{
+    border-radius: 4px;
+    width:70%;
+  height: 37px;
+  padding: 10px;
+  border: 1px solid silver;
+}
+.input-group .users{ 
+    width: 70%;
+} 
+/* users detail에 {{}}값들을 감싸는 부분*/
+.users{
+    border-radius: 4px;
+    height: 37px;
+    padding: 10px;
+    border: 1px solid silver;
+}
+
+.input-group label { 
+   width:30%;
+   text-align: center;
+} 
+
+/* users detail에 label들을 감싸는부분 */
+label{
+    display: inline-block; 
+    padding: .5em .75em; 
+    color: #999; 
+    font-size: inherit; 
+    line-height: normal; 
+    vertical-align: middle; 
+    background-color: #fdfdfd; 
+    cursor: pointer; 
+    border: 1px solid #ebebeb; 
+    border-bottom-color: #e2e2e2; 
+    border-radius: .25em; 
+}
+.input-group button{
+    width : 33%;
+    margin: 0 auto;
+}
+
+/* 버튼 CSS */
+button .btn{
+    display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  background: #007bff;
+  border: 1px solid silver;
+  color: white;
+  height: 42px;
+  line-height: 42px;
+  vertical-align: top;
+  font-size: 12px;
+  width: 80%;
+}

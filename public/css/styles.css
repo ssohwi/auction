@@ -62,3 +62,9 @@
     width: 100% \9; 
     height: auto; 
 }
+
+.form-group button{
+    width : 33%;
+    margin: 0 auto;
+}
+
