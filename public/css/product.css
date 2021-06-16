@@ -1,0 +1,49 @@
+
+/* 이미지 크기지정 */
+ img { 
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+    flex-shrink: 0;
+    max-width: 100%;
+    max-height:300px;
+    object-fit:cover;
+    text-align: center;
+  }
+  .timeline {
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+  
+    border-radius: 4px;
+    vertical-align: top;
+  }
+
+  /* 상품그룹의 버튼 */
+.product-group button{
+    width : 20%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* 버튼 CSS 지정 */
+button .btn{
+    margin: 0 auto;
+    display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  background: #007bff;
+  border: 1px solid silver;
+  color: white;
+  height: 42px;
+  line-height: 42px;
+  vertical-align: top;
+  font-size: 12px;
+  width: 100%;
+}
+
+
