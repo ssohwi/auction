@@ -29,7 +29,8 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {//async함수는 
       password: hash,//비밀번호엔 암호화된 값을 넣어줌
       money,
     });
-    return res.redirect('/');
+    res.send('<script>alert("회원가입 성공");\
+    location.href="/";</script>');
   } catch (error) {//에러 처리문
     console.error(error);
     return next(error);
