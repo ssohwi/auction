@@ -1,23 +1,36 @@
 
-  <link rel="stylesheet" href="/main.css">
-  <form action="/auth/detail" id="join-form" method="post">
-    <h1><a href="/">누가살래</a></h1>
-     <h1>상품상세보기</h1>
-     <div class="timeline">
-        
-     <div class="input-group">
-        <label for="join-email">이메일</label>
-        {{user.email}}
-      </div>
-      <div class="input-group">
-        <label for="join-nick">닉네임</label>
-        {{user.nick}}
-      </div>
-      <div class="input-group">
-        <label for="join-money">보유자산</label>
-        {{user.money}}
-      </div>
-      <a href="/" class="btn btn-default">목록으로</a>
-      <a href="./update/{{user.id}}" class="btn btn-default">수정하기</button>
-    <a href="/auth/login/delete/{{user.email}}" class="btn btn-default" onclick="return confirm('회원탈퇴를하시겠습니까?')">회원탈퇴</a>
+  {% extends 'layout.html' %}
+
+  {% block content %}
+  
+    <div class="container timeline">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header">
+              <h3 class="text-center font-weight-light my-4">회원정보</h3>
+            </div>
+            <form action="/auth/detail" id="join-form" method="post"></form>
+             <div class="input-group">
+                <label for="join-email">이메일</label>
+                <div class='users'> {{user.email}}</div>
+              </div>
+            <div class="input-group">
+              <label for="join-nick">닉네임</label>
+              <div class='users'>{{user.nick}}</div>
+            </div>
+            <div class="input-group">
+              <label for="join-money">보유자산</label>
+              <div class='users'> {{user.money}}</div>
+            </div>
+            <div  class="input-group text-center font-weight-light my-4">
+            <button class="btn"><a href="/" class="btn btn-default">목록으로</a></button>
+          <button class="btn"><a href="./update/{{user.id}}" class="btn btn-default">수정하기</a></button>
+        <button class="btn"> <a href="/auth/login/delete/{{user.email}}" class="btn btn-default" onclick="return confirm('회원탈퇴를하시겠습니까?')">회원탈퇴</a></button>
+        </div>
       </form>
+          </div>
+        </div>
+      </div>
+    </div>
+      {% endblock %}
