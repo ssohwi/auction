@@ -1,37 +1,46 @@
+{% extends 'layout.html' %}
 
-
-  <link rel="stylesheet" href="/main.css">
-  
+{% block content %}
+<link rel="stylesheet" href="../css/product.css">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <h3 class="text-center font-weight-light my-4">상품정보</h3>
+        </div>
   <form action="/index/goodDetail" id="good-form" method="post">
-    <h1><a href="/">누가살래</a></h1>
      <div class="timeline">   
         <hr class="my-0" />
         {% for good in goods %}
-        <div >
-            <label>상품명</label>
-            {{good.name}} <!--여기다가 상품 상세정보 넣으면될듯-->
-        </div>
-         <div >
-            <label>상품정보</label>
-            <img id="good-img" src="/img/{{good.img}}">
-          </div>
-         <div >
-            <label>시작가</label>
-            {{good.price}}
-         </div>
-      <div>
-        남은시간
-          <table>    
+        <div class="col-lg-4 col-sm-6 mb-4 "> </div>
+        <div class="timeline">
+        <hr class="my-0" />
+          <img id="good-img" src="/img/{{good.img}}">    
+     <div>
+        <label>상품명</label>
+        {{good.name}} </a><!--여기다가 상품 상세정보 넣으면될듯-->
+      </div>  
+      
+      <div >
+        <label>시작가</label>
+        {{good.price}}원
+      </div>  
+          <table>            
+            <td><label>남은시간</label></td> 
         <td class="time" data-start="{{good.createdAt}}">00:00:00</td>
-          </table>
-      </div>   
+          </table>   
+      </d>
+     
+    
       
       <hr class="my-0" />
-      <a href="/detail" class="btn btn-default">이전으로</a>
-      <a href="../../good" class="btn btn-default">상품등록</a>
-      <a href="/update/{{good.id}}" class="btn btn-default">수정하기</button>
-      <a href="/delete/{{good.id}}" class="btn btn-default" onclick="return confirm('상품을 삭제하시겠습니까?')">상품삭제</a>
-      {% endfor%}
+      <div class="product-group text-center font-weight-light my-4">   
+        <button class="btn"> <a href="/detail" class="btn btn-default">이전으로</a></button>
+        <button class="btn"> <a href="../../good" class="btn btn-default">상품등록</a></button>
+        <button class="btn"> <a href="/update/{{good.id}}" class="btn btn-default">수정하기</a></button>
+        <button class="btn"> <a href="/delete/{{good.id}}" class="btn btn-default" onclick="return confirm('상품을 삭제하시겠습니까?')">상품삭제</a></button>
+        {% endfor %}
     </form>
      
  
@@ -55,3 +64,4 @@
       });
     };
 </script>
+{% endblock %}
