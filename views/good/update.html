@@ -1,20 +1,37 @@
-<link rel="stylesheet" href="/main.css">
+{% extends 'layout.html' %}
+
 {% block content %}
-    <form action="/update/{{good.id}}" id="good-form" method="post" enctype="multipart/form-data">    
-      <h1><a href="/">누가살래</a></h1>
-      <div class="timeline">
-      <div class="input-group">
-        <label for="good-name">상품명</label>
-        <input type="text" id="good-name" name="name" required autofocus>
+<div class="container timeline">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <h3 class="text-center font-weight-light my-4">상품 등록</h3>
+        </div>
+        <div class="card-body">
+          <form action="/update/{{good.id}}" id="good-form" method="post" enctype="multipart/form-data">
+            <div class="filebox preview-image">
+              <input class="upload-name" value="상품 사진" disabled="disabled">
+              <label for="good-photo">파일 선택</label>
+              <input type="file" id="good-photo" name="img" class="upload-hidden" required>
+            </div>
+            <div class="form-group">
+              <label class="small mb-1" for="good-name">상품명</label>
+              <input class="form-control py-4" id="good-name" name="name" type="text" placeholder="상품명을 입력해주세요."
+                required />
+            </div>
+            <div class="form-group">
+              <label class="small mb-1" for="good-price">시작 가격</label>
+              <input class="form-control py-4" id="good-price" name="price" type="Number"
+                placeholder="상품 시작 가격을 입력해주세요." required />
+            </div>
+            <div class="form-group mt-4 mb-0">
+              <button id="join-btn" class="btn btn-primary btn-block" type="submit">수정하기</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="input-group">
-        <label for="good-photo">상품 사진</label>
-        <input type="file" id="img" name="img" required>
-      </div>
-      <div class="input-group">
-        <label for="good-price">시작 가격</label>
-        <input type="number" id="good-price" name="price" required>
-      </div>
-      <button id="join-btn" class="btn" type="submit">수정하기</button>
-    </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
