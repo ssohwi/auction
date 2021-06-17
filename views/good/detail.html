@@ -1,65 +1,52 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="../css/product.css">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="card shadow-lg border-0 rounded-lg mt-5">
-        <div class="card-header">
-          <h3 class="text-center font-weight-light my-4">등록상품목록</h3>
-        </div>
-        
-   <form action="/index/detail" id="good-form" method="post">
+<div class="container-fluid">
+  <h1 class="mt-4">등록 상품 목록</h1>
+  <br>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-search-dollar"></i>
+      상품 목록
+    </div>
+    <form action="/index/detail" id="good-form" method="post">
+      <div class="card-body timeline good-boxes">
         {% for good in goods %}
-        <div class="col-lg-4 col-sm-6 mb-4 "> </div>
-        <div class="timeline">
-        <hr class="my-0" />
-          <img id="good-img" src="/img/{{good.img}}">    
-     <div>
-        <label>상품명</label>
-        <a href="/goodDetail/{{good.id}}">{{good.name}} </a> <!--상품 상세정보-->
-      </div>  
-      
-      <div >
-        <label>시작가</label>
-        {{good.price}}원
-      </div>  
-          <table>            
-            <td><label>남은시간</label></td> 
-        <td class="time" data-start="{{good.createdAt}}">00:00:00</td>
-          </table>   
-      </d>
-     
-      {% endfor %}
-      <hr class="my-0" />
-      <div class="product-group text-center font-weight-light my-4">
-        <button class="btn"><a href="/" class="btn btn-default">목록으로</a></button>
-        <button class="btn"> <a href="../../good" class="btn btn-default">상품등록</a></button>
-      </form>
+        <a href="/goodDetail/{{good.id}}" class="good-name-detail">
+          <div class="good-box">
+            <div class="good-box-img"><img id="good-img" src="/img/{{good.img}}"></div>
+            <div class="good-name">{{good.name}}</div>
+            <div class="good-price">{{good.price}} 원</div>
+            <div class="time good-time" data-start="{{good.createdAt}}">00:00:00</div>
+          </div>
+        </a>
+        {% endfor %}
       </div>
+    </form>
+    <div class="product-group">
+      <a href="/" class="btn btn-primary">목록으로</a>
+      <a href="../../good" class="btn btn-primary">상품등록</a>
     </div>
   </div>
- </div>
 </div>
-      
+
 <script>
-     const es = new EventSource('/sse');
-    es.onmessage = function (e) {
-      document.querySelectorAll('.time').forEach((td) => {
-        const end = new Date(td.dataset.start); // 경매 시작 시간
-        const server = new Date(parseInt(e.data, 10));
-        end.setDate(end.getDate() + 1); // 경매 종료 시간
-        if (server >= end) { // 경매가 종료되었으면
-          return td.textContent = '00:00:00';
-        } else {
-          const t = end - server; // 경매 종료까지 남은 시간
-          const seconds = ('0' + Math.floor((t / 1000) % 60)).slice(-2);
-          const minutes = ('0' + Math.floor((t / 1000 / 60) % 60)).slice(-2);
-          const hours = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
-          return td.textContent = hours + ':' + minutes + ':' + seconds ;
-        }
-      });
-    };
+  const es = new EventSource('/sse');
+  es.onmessage = function (e) {
+    document.querySelectorAll('.time').forEach((div) => {
+      const end = new Date(div.dataset.start); // 경매 시작 시간
+      const server = new Date(parseInt(e.data, 10));
+      end.setDate(end.getDate() + 1); // 경매 종료 시간
+      if (server >= end) { // 경매가 종료되었으면
+        return div.textContent = '00:00:00';
+      } else {
+        const t = end - server; // 경매 종료까지 남은 시간
+        const seconds = ('0' + Math.floor((t / 1000) % 60)).slice(-2);
+        const minutes = ('0' + Math.floor((t / 1000 / 60) % 60)).slice(-2);
+        const hours = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
+        return div.textContent = hours + ':' + minutes + ':' + seconds;
+      }
+    });
+  };
 </script>
 {% endblock %}

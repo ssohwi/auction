@@ -1,0 +1,272 @@
+.auction-body {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.good-container, .chat-container {
+  margin: 10px;
+  outline:none;
+  border-radius: 20px;
+  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+  width: 500px;
+}
+
+.good-header, .chat-header {
+  padding: 10px;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+.good-body, .chat-body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.good-body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.good-table {
+  width: 450px;
+  margin-top: 10px;
+}
+
+.good-table th {
+  width: 120px;
+}
+
+.good-img {
+  display: block; 
+  overflow: hidden; 
+  height: 450px; 
+  width: 450px;
+}
+
+.good-img img{
+  display: block; /* Otherwise it keeps some space around baseline */ 
+  min-width: 100%; /* Scale up to fill container width */ 
+  min-height: 100%; /* Scale up to fill container height */ 
+  -ms-interpolation-mode: bicubic; /* Scaled images look a bit better in IE now */
+}
+
+.good-img:hover img{
+  animation: goodImgAnimation 0.5s ease-out forwards;
+}
+
+@keyframes goodImgAnimation{
+  from{
+    transform: none;
+  }
+  to{
+    transform: scale(1.05);
+  }
+}
+
+.chat_write-input-box {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.chat_write-container {
+  margin-top: 30px;
+}
+
+#bid-form button{
+  font-size: 1.2rem;
+}
+
+  .chat_icon-left{
+    position: absolute;
+    left: 10px;
+  }
+  
+  .chat_icon-right{
+    position: absolute;
+    right: 10px;
+  
+  }
+  
+  @keyframes float{
+    0%{
+      box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+      0 18px 36px -18px rgba(0, 0, 0, 0.3),
+      0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+  
+    }
+    50%{
+      box-shadow: 0 30px 60px -60px rgba(50, 50, 93, 0.25),
+      0 18px 36px -18px rgba(0, 0, 0, 0.3),
+      0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+  
+    }
+    100%{
+      box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+      0 18px 36px -18px rgba(0, 0, 0, 0.3),
+      0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+  
+    }
+  }
+  
+  .chat_write{
+    bottom: 0px;
+    width: 100%;
+    border-radius: 0;
+    padding:20px 60px;
+    width: 100%;
+    border: none;
+    margin:0 auto;
+    font-size: 14px;
+    transition: width 0.5s ease-in, 
+      border-radius 0.5s ease-in, 
+      transform 0.5s ease-in;
+  }
+  
+  .chat_write:focus {
+    outline:none;
+    width: 80%;
+    transform: translateY(-20px);
+    border-radius: 40px;
+    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+      0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+    animation: float 3s linear infinite forwards ;
+  }
+  
+  .chat_icon{
+    font-size: 18px;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .chat_write:focus ~ .chat_icon{
+    opacity: 0;
+  }
+  
+  .chat_write i {
+    font-size: 22px;
+  }
+  
+  .chat_write-column:nth-child(2) {
+    width: 80%;
+  }
+  
+  .chat_write-column input {
+  }
+  
+  .chat-screen .chat_messages {
+    border-top: 1px solid #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px;
+    padding-top: 30px;
+  }
+  
+  .chat_messages .chat_timestamp {
+    background-color: white;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.3),
+      0 -6px 16px -6px rgba(0, 0, 0, 0.024);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  
+  .message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    max-height: 500px;
+    overflow-x:hidden; 
+    overflow-y:auto; 
+  }
+  
+  
+  .incoming-message {
+    align-self: flex-start;
+  }
+  
+  .sent-message {
+    align-self: flex-end;
+  }
+  
+  @keyframes spin{
+    from{
+      transform: none;
+    }
+    to{
+      transform: rotateY(1turn);
+    }
+  }
+  
+  .incoming-message img {
+    width: 30px;
+    border-radius: 15px;
+    margin-right: 15px;
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.3),
+    0 -6px 16px -6px rgba(0, 0, 0, 0.024);
+    animation: spin 1s linear infinite;
+  }
+  
+  .message_bubble {
+      background-color: white;
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.3),
+      0 -6px 16px -6px rgba(0, 0, 0, 0.024);
+      padding: 10px 20px;
+      border-radius: 20px;
+      display: block;
+      color: white;
+      font-weight: 600;
+  }
+  
+  .incoming-message .message_author{
+    margin-top: 10px;
+    display: block;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  
+  .incoming-message .message_bubble{
+    border-bottom-left-radius: 0px;
+    background-image: linear-gradient(to right, #00c6ff, #0072ff);
+  
+  }
+  
+  .sent-message .message_bubble{
+    border-bottom-right-radius: 0px;
+    background-image: linear-gradient(to left, #ffa600, #ff5e00);
+  
+  }
+  
+  @keyframes incomingAnimation{
+    from{
+      opacity: 0;
+      transform: translateX(-200px);
+    }
+    to{
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  .incoming-message{
+    animation: incomingAnimation 0.5s ease-out forwards;
+  }
+  
+  @keyframes sentAnimation{
+    from{
+      opacity: 0;
+      transform: translateX(200px);
+    }
+    to{
+      opacity: 1;
+      transform: none;
+    }
+  }
+  
+  .sent-message{
+    animation: sentAnimation 0.5s ease-out forwards;
+  }

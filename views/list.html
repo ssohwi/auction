@@ -1,28 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="card mb-4">
-  <div class="card-header">
-    <i class="fas fa-table mr-1"></i>
-    경매 낙찰 목록
+<div class="container-fluid">
+  <h1 class="mt-4">경매 낙찰 목록</h1>
+  <br>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-gavel"></i>
+      낙찰 목록
+    </div>
+    <form action="/index/detail" id="good-form" method="post">
+      <div class="card-body timeline good-boxes">
+        {% for good in goods %}
+        <div class="good-box">
+          <div class="good-box-img"><img id="good-img" src="/img/{{good.img}}"></div>
+          <div class="good-name">{{good.name}}</div>
+          <div class="good-price">{{good.Auctions[0].bid}} 원</div>
+        </div>
+        {% endfor %}
+      </div>
+    </form>
+    <div class="product-group">
+      <a href="/" class="btn btn-primary">목록으로</a>
+      <a href="../../good" class="btn btn-primary">상품등록</a>
+    </div>
   </div>
-  <div class="card-body timeline">
-    <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable good-list" width="100%" cellspacing="0">
-      <tr>
-        <th>상품명</th>
-        <th>사진</th>
-        <th>낙찰가</th>
-      </tr>
-      {% for good in goods %}
-        <tr>
-          <td>{{good.name}}</td>
-          <td>
-            <img src="/img/{{good.img}}">
-          </td>
-          <td>{{good.Auctions[0].bid}}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
+</div>
 {% endblock %}

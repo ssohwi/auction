@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/user.css">
+  <link rel="stylesheet" href="/css/chat.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
     crossorigin="anonymous"></script>
 </head>
@@ -26,9 +27,6 @@
       <a class="btn btn-primary" href="/good" id="register" role="button">
         <i class="fas fa-pen fa-fw"></i>&nbsp; 상품 등록
       </a>
-      <a class="btn btn-primary" href="/auth/detail" id="join-form" role="button">
-        <i class="fas fa-pen fa-fw"></i>&nbsp; 마이페이지
-      </a>
       {% endif %}
     </ul>
   </nav>
@@ -37,21 +35,24 @@
       <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
           <div class="nav">
-            <div class="sb-sidenav-menu-heading">PROFILE</div>
-            <div class="sb-nav-link-icon"><i class="fas fa-user-circle"></i></div>
             {% if user and user.id %}
-            <div class="user-name">{{user.nick}}님</div>
-            <div class="user-money">보유 자산: {{user.money}}원</div>
-            <input type="hidden" id="my-id" value="user.id">
+            <div class="sb-sidenav-menu-heading">PROFILE</div>
+            <div class="profile">
+              <div class="profile-img"><i class="fas fa-smile"></i></div>
+              <div class="user-name">{{user.nick}}님</div>
+              <div class="user-money"><i class="far fa-money-bill-alt"></i>&nbsp;{{user.money}}원</div>
+              <input type="hidden" id="my-id" value="user.id">
+            </div>
             <div class="mt-4 mb-0">
-              <a href="/auth/logout" id="logout" class="btn btn-primary">로그아웃</a>
-              <a href="/detail" id="good" class="btn btn-primary">등록상품</a></p>
-              <a href="/list" id="register" class="btn btn-primary">낙찰목록</a>
+              <a href="/auth/detail" id="join-form" class="btn btn-primary nav-btn">마이페이지</a>
+              <a href="/auth/logout" id="logout" class="btn btn-primary nav-btn">로그아웃</a>
+              <a href="/detail" id="good" class="btn btn-primary nav-btn">등록상품</a>
+              <a href="/list" id="register" class="btn btn-primary nav-btn">낙찰목록</a>
             </div>
             {% else %}
             <div class="mt-4 mb-0">
-              <a href="/login" id="login" class="btn btn-primary">Login</a>
-              <a href="/join" id="join" class="btn btn-primary"">Sing up</a>
+              <a href="/login" id="login" class="btn btn-primary nav-btn">Login</a>
+              <a href="/join" id="join" class="btn btn-primary nav-btn">Sing up</a>
             </div>
             {% endif %}
           </div>

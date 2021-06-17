@@ -99,23 +99,23 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     const end = new Date();//현재 날짜
     //end.setDate(end.getDate()+1); //getDate는 현재 일을 반환해줌(1~31)
     //+1을 함으로 상품등록 후 24시간 뒤 날짜로 설정
-    end.setMinutes(end.getMinutes()+1);
-    
+    end.setMinutes(end.getMinutes() + 1);
+
     //경매 24시간이 지난후 낙찰자 선정
     schedule.scheduleJob(end, async () => {//end, 즉 하루가 지나면 함수 실행
       const success = await Auction.findOne({//가장 높은 가격을 제시한 사람을 find
         where: { GoodId: good.id }, //상품 번호 조회
         order: [['bid', 'DESC']], //금액을 내림차순으로 조회(제일 높은 가격 탐색)
       });
-      if (success){//낙찰자가 있으면
+      if (success) {//낙찰자가 있으면
         await Good.update({ SoldId: success.UserId }, { where: { id: good.id } });//낙찰자의 ID를 SoIdId에 업데이트
         await User.update({
           money: sequelize.literal(`money - ${success.bid}`),//낙찰자의 보유자산에서 낙찰 금액을 차감
         }, {
           where: { id: success.UserId },
         });
-      }else{//낙찰자가 없으면 목록에서 삭제
-        await Good.destroy({where: {id:good.id}});
+      } else {//낙찰자가 없으면 목록에서 삭제
+        await Good.destroy({ where: { id: good.id } });
       }
     });
     res.redirect('/'); // main.html로 이동
@@ -172,7 +172,7 @@ router.post('/good/:id/bid', isLoggedIn, async (req, res, next) => {
     if (good.Auctions[0] && good.Auctions[0].bid >= bid) { // 상품의 가장 높은 경매 입찰가보다 입력된 입찰가가 작거나 같은 경우
       return res.status(403).send('이전 입찰가보다 높아야 합니다');
     }
-    if (good.OwnerId == req.user.id) {
+    if (good.OwnerId == req.user.id) { // 상품 등록자와 입찰자의 id가 같은 경우
       return res.status(403).send('경매 등록자는 입찰할 수 없습니다.');
     }
     // 입찰 정보 저장
@@ -197,60 +197,60 @@ router.post('/good/:id/bid', isLoggedIn, async (req, res, next) => {
 });
 
 //개인이 등록한 상품 전체목록확인
-router.get('/detail', isLoggedIn,async(req,res,next)=>{
-  try{
-   const goods = await Good.findAll({ //Good 테이블에 모든데이터를 확인한다.
-     where: {OwnerId: req.user.id}, //개인이등록한 모든 상품을 불러와야되서 로그인한 user의 id값을 OwnerId(등록자)로 검색을한다.  
-     include : {model:Auction} //Auction 모델을 포함시킨다.
-   });
-   res.render('good/detail',{goods}) //detail(개인이등록한 전체상품보는페이지) 렌더링 해주고 ownerid에 해당하는 전체데이터값을 같이 넘겨줌
-  }catch(error){//에러처리문
+router.get('/detail', isLoggedIn, async (req, res, next) => {
+  try {
+    const goods = await Good.findAll({ //Good 테이블에 모든데이터를 확인한다.
+      where: { OwnerId: req.user.id }, //개인이등록한 모든 상품을 불러와야되서 로그인한 user의 id값을 OwnerId(등록자)로 검색을한다.  
+      include: { model: Auction } //Auction 모델을 포함시킨다.
+    });
+    res.render('good/detail', { goods }) //detail(개인이등록한 전체상품보는페이지) 렌더링 해주고 ownerid에 해당하는 전체데이터값을 같이 넘겨줌
+  } catch (error) {//에러처리문
     console.log(error);
     next(error);
   }
 })
 
 //상품 상세보기
-router.get('/goodDetail/:id',async(req,res,next)=>{ 
-  try{
+router.get('/goodDetail/:id', async (req, res, next) => {
+  try {
     const goods = await Good.findAll({ //Good 테이블에 모든데이터를 확인한다.
       where: { id: req.params.id } //상품번호를기준으로 검색
     });
-    res.render('good/goodDetail',{goods}) //goodDetail(상품상세보기)를 렌더링, id에 해당하는 데이터값을 같이 보내준다. 
-   }catch(error){ //에러처리문
-     console.log(error);
-     next(error);
-   }
+    res.render('good/goodDetail', { goods }) //goodDetail(상품상세보기)를 렌더링, id에 해당하는 데이터값을 같이 보내준다. 
+  } catch (error) { //에러처리문
+    console.log(error);
+    next(error);
+  }
 })
 
 //상품 수정
-router.get('/update',(req,res,next)=>{ 
+router.get('/update', (req, res, next) => {
   res.render('good/update') //상품수정하는페이지 렌더링
 })
 
 //상품 수정 get방식
-router.get('/update/:id',async(req,res,next)=>{
-  try{
-  const good = await Good.findOne({ //Good테이블에서 데이터하나를 찾는다.
-    where : {id:req.params.id} 
-  })
-  res.render('good/update',{good}) //상품수정하는페이지 렌더링
-  }catch(error){
+router.get('/update/:id', async (req, res, next) => {
+  try {
+    const good = await Good.findOne({ //Good테이블에서 데이터하나를 찾는다.
+      where: { id: req.params.id }
+    })
+    res.render('good/update', { good }) //상품수정하는페이지 렌더링
+  } catch (error) {
     console.log(error);
     next(error);
   }
 })
 
 //상품 수정 post방식
-router.post('/update/:id', isLoggedIn, upload.single('img'),async(req,res,next)=>{ //이미지를 수정하기때문에 upload.single('img')를 사용
-  try{
+router.post('/update/:id', isLoggedIn, upload.single('img'), async (req, res, next) => { //이미지를 수정하기때문에 upload.single('img')를 사용
+  try {
     const good = await Good.update({ //Good테이블에 데이터를 아래값으로 변경하겠다.
-      name:req.body.name, //상품명
-      img:req.file.filename, //상품이미지
-      price:req.body.price // 상품가격
-    },{where:{id:req.params.id}}) //파라미터를 통해 넘겨받은 상품id값
-    return res.send('<script>alert("상품정보수정 완료");location.href="/detail";</script>',)  
-  }catch(error){
+      name: req.body.name, //상품명
+      img: req.file.filename, //상품이미지
+      price: req.body.price // 상품가격
+    }, { where: { id: req.params.id } }) //파라미터를 통해 넘겨받은 상품id값
+    return res.send('<script>alert("상품정보수정 완료");location.href="/detail";</script>',)
+  } catch (error) {
     console.log(error);
     next(error);
   }
@@ -258,19 +258,19 @@ router.post('/update/:id', isLoggedIn, upload.single('img'),async(req,res,next)=
 
 
 //상품 삭제하기
-router.get('/delete/:id',async(req,res,next)=>{
-    try{
-      const good = await Good.destroy({ //Good 테이블을 삭제하겠다.
-        where:{
-          id: req.params.id //파라미터로 넘겨받은 id값에 해당하는 열
-        }
-      });
-      res.send('<script>alert("상품삭제 완료");location.href="/";</script>')    
-      // res.render('good/detail',{good}) 비어있는 값으로나옴
-    }catch(error){
-      console.log(error);
-     next(error);
-    }
+router.get('/delete/:id', async (req, res, next) => {
+  try {
+    const good = await Good.destroy({ //Good 테이블을 삭제하겠다.
+      where: {
+        id: req.params.id //파라미터로 넘겨받은 id값에 해당하는 열
+      }
+    });
+    res.send('<script>alert("상품삭제 완료");location.href="/";</script>')
+    // res.render('good/detail',{good}) 비어있는 값으로나옴
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 })
 //낙찰내역 조회
 router.get('/list', isLoggedIn, async (req, res, next) => {

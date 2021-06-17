@@ -3,49 +3,23 @@
 {% block content %}
 <div class="container-fluid">
   <h1 class="mt-4">경매 진행</h1>
+  <br>
   <div class="card mb-4">
     <div class="card-header">
-      <i class="fas fa-table mr-1"></i>
+      <i class="fas fa-search-dollar"></i>
       경매 진행 목록
     </div>
-    <div class="card-body timeline">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable good-list" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th>상품명</th>
-              <th>이미지</th>
-              <th>시작 가격</th>
-              <th>종료 시간</th>
-              <th>입장</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>상품명</th>
-              <th>이미지</th>
-              <th>시작 가격</th>
-              <th>종료 시간</th>
-              <th>입장</th>
-            </tr>
-          </tfoot>
-          <tbody>
-            {% for good in goods %}
-            <tr>
-              <td>{{good.name}}</td>
-              <td>
-                <img src="/img/{{good.img}}">
-              </td>
-              <td>{{good.price}}</td>
-              <td class="time" data-start="{{good.createdAt}}">00:00:00</td>
-              <td>
-                <a href="/good/{{good.id}}" class="enter btn">입장</a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+    <div class="card-body timeline good-boxes">
+      {% for good in goods %}
+      <div class="good-box">
+        <a href="/good/{{good.id}}" class="enter btn">
+          <div class="good-box-img"><img src="/img/{{good.img}}"></div>
+          <div class="good-name">{{good.name}}</div>
+          <div class="good-price">{{good.price}} 원</div>
+          <div class="time good-time" data-start="{{good.createdAt}}">00:00:00</div>
+        </a>
       </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -57,18 +31,18 @@
 <script>
   const es = new EventSource('/sse'); // sse객체 생성
   es.onmessage = function (e) { // onmessage : 메시지 수신 되는 이벤트 발생 시
-    document.querySelectorAll('.time').forEach((td) => { // class가 time인 td 태그 마다
-      const end = new Date(td.dataset.start); // 경매 시작 시간을 end 변수에 저장
+    document.querySelectorAll('.time').forEach((div) => { // class가 time인 div 태그 마다
+      const end = new Date(div.dataset.start); // 경매 시작 시간을 end 변수에 저장
       const server = new Date(parseInt(e.data, 10)); // e.data(서버로부터 받은 데이터)를 10진수의 정수로 변환하여 server에 저장
       end.setDate(end.getDate() + 1); // 경매 종료 시간 = 경매 시작시간 + 하루
       if (server >= end) { // 경매가 종료되었으면
-        return td.textContent = '00:00:00'; // td 태그의 텍스트를 00:00:00으로 넣음
+        return div.textContent = '00:00:00'; // div 태그의 텍스트를 00:00:00으로 넣음
       } else {
         const t = end - server; // 경매 종료까지 남은 시간 = 경매 종료 시간 - 서버 현재 시간
         const seconds = ('0' + Math.floor((t / 1000) % 60)).slice(-2);  // 경매 종료까지 남은 시간 중 초를 계산하여 정수로 반환(Math.floor) 한 후
         const minutes = ('0' + Math.floor((t / 1000 / 60) % 60)).slice(-2); // 두자리 수를 만들기 위해 0을 앞에 더하고 뒷자리 두개만 저장
         const hours = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
-        return td.textContent = hours + ':' + minutes + ':' + seconds; // td 태그의 텍스트에 경매 종료까지 남은 시간을 넣음
+        return div.textContent = hours + ':' + minutes + ':' + seconds; // div 태그의 텍스트에 경매 종료까지 남은 시간을 넣음
       }
     });
   };
