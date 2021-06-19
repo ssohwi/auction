@@ -20,7 +20,7 @@ const checkAuction = require('./checkAuction');//서버종료로 인한 예외�
 const app = express();
 passportConfig();
 checkAuction();//서버실행시 checkAuction 한번 실행
-app.set('port', process.env.PORT || 8010);
+app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
   express: app,

@@ -31,20 +31,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// //로고클릭시 메인화면 이동
-// router.get('/main', async (req, res, next) => {
-//   try {
-//     const goods = await Good.findAll({ where: { SoldId: null } });
-//     res.render('main', { //  main.html를 렌더링
-//       title: '누가살래?', // title을 view 템플릿에서 변수값으로 사용할 수 있도록 할당
-//       goods, // 상품들의 정보를 view 템플릿의 변수값으로 사용할 수 있도록 할당
-//     });
-//   } catch (error) { // 에러 핸들링
-//     console.error(error);
-//     next(error);
-//   }
-// });
-
 // 로그인 화면으로 이동
 router.get('/login', isNotLoggedIn, (req, res) => { // isNotLoggedIn : 로그인 되어있지 않다면
   res.render('users/login', {
