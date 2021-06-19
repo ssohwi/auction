@@ -11,19 +11,19 @@
         <div class="card-body">
           <form action="/update/{{good.id}}" id="good-form" method="post" enctype="multipart/form-data">
             <div class="filebox preview-image">
-              <input class="upload-name" value="상품 사진" disabled="disabled">
+              <img id="good-img" src="/img/{{good.img}}">
               <label for="good-photo">파일 선택</label>
               <input type="file" id="good-photo" name="img" class="upload-hidden" required>
             </div>
             <div class="form-group">
               <label class="small mb-1" for="good-name">상품명</label>
-              <input class="form-control py-4" id="good-name" name="name" type="text" placeholder="상품명을 입력해주세요."
+              <input class="form-control py-4" id="good-name" name="name" type="text" placeholder="{{good.name}}"
                 required />
             </div>
             <div class="form-group">
               <label class="small mb-1" for="good-price">시작 가격</label>
               <input class="form-control py-4" id="good-price" name="price" type="Number"
-                placeholder="상품 시작 가격을 입력해주세요." required />
+                placeholder="{{good.price}}" required />
             </div>
             <div class="form-group mt-4 mb-0">
               <button id="join-btn" class="btn btn-primary btn-block" type="submit">수정하기</button>

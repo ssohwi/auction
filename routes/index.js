@@ -79,13 +79,13 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     const good = await Good.create({ // 입력된 상품 정보를 비동기 방식으로 저장
       OwnerId: req.user.id, // 상품 등록자를 사용자의 id로 저장
       name, // 상품이름
-      img: req.file.filename, // 업로드 된 파일 이름
+      img: req.file.filename, // 업로드 된   파일 이름
       price, // 상품 가격
     });
     const end = new Date();//현재 날짜
-    //end.setDate(end.getDate()+1); //getDate는 현재 일을 반환해줌(1~31)
+    end.setDate(end.getDate()+1); //getDate는 현재 일을 반환해줌(1~31)
     //+1을 함으로 상품등록 후 24시간 뒤 날짜로 설정
-    end.setMinutes(end.getMinutes() + 1);
+    // end.setMinutes(end.getMinutes() + 1);
 
     //경매 24시간이 지난후 낙찰자 선정
     schedule.scheduleJob(end, async () => {//end, 즉 하루가 지나면 함수 실행

@@ -8,9 +8,9 @@ module.exports = async () => {
   console.log('checkAuction');
   try {
     const yesterday = new Date(); //현재 날짜
-    //yesterday.setDate(yesterday.getDate() - 1); // //getDate는 현재 일을 반환해줌(1~31)
+    yesterday.setDate(yesterday.getDate() - 1); // //getDate는 현재 일을 반환해줌(1~31)
     //-1을 함으로 상품등록 후 24시간 전 날짜로 설정
-    yesterday.setMinutes(yesterday.getMinutes()-1);
+    // yesterday.setMinutes(yesterday.getMinutes()-1);
     const targets = await Good.findAll({//SoldID값이 null값이고(낙찰자가 없고), 24시간이 지난(경매가 만료된) 모든 상품을 검색
       where: {
         SoldId: null,
