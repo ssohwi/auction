@@ -118,7 +118,7 @@
     }
   };
   // 입찰 정보 렌더링
-  const socket = io.connect('http://localhost:8010', { // 소켓 연결
+  const socket = io.connect('http://localhost:3000', { // 소켓 연결
     path: '/socket.io'
   });
   socket.on('bid', (data) => { // 누군가 입찰했을 때, bid값이 발생 했을 때
